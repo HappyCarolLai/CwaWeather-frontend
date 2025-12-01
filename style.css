@@ -19,8 +19,7 @@
 }
 
 body {
-    /* 替換字體，Zen Maru Gothic 圓潤可愛，保留 */
-    font-family: 'Zen Maru Gothic', sans-serif; 
+    font-family: 'Zen Maru Gothic', sans-serif;
     min-height: 100vh;
     color: var(--shin-outline); 
     overflow-x: hidden;
@@ -28,7 +27,7 @@ body {
 }
 
 /* ====================================
-   ☀️ 動態背景樣式 (重點!)
+   ☀️ 動態背景樣式 (模擬蠟筆/手繪紋理)
    ==================================== */
 
 /* 基礎容器樣式 */
@@ -36,52 +35,99 @@ body {
     padding: 20px;
     max-width: 600px;
     margin: 0 auto;
+    /* 增加整個容器的過渡，讓背景切換更平滑 */
     transition: background-color 0.8s ease-in-out, background-image 0.8s ease-in-out;
-    border-radius: 0; /* 容器邊界不需要圓角 */
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 0; 
 }
 
-/* 晴天 (Clear) - 充滿動感的藍天 */
+/* 晴天 (Clear) - 充滿活力的黃色與藍色塗鴉 */
 .clear-sky {
     background-color: var(--shin-blue);
-    /* 模擬蠟筆天空的漸變或紋理 */
-    background-image: linear-gradient(135deg, var(--shin-blue) 0%, #85C1E9 100%);
+    /* 結合藍色基底和黃色/白色「蠟筆」斜線紋理 */
+    background-image: 
+        /* 1. 鮮黃色斜線紋理 (模擬蠟筆痕跡) */
+        repeating-linear-gradient(
+            -45deg, 
+            var(--shin-yellow) 0, 
+            var(--shin-yellow) 5px, 
+            transparent 5px, 
+            transparent 15px
+        ),
+        /* 2. 淺藍色橫向紋理 (增加水彩層次感) */
+        repeating-linear-gradient(
+            0deg, 
+            rgba(255, 255, 255, 0.2) 0, 
+            rgba(255, 255, 255, 0.2) 20px, 
+            transparent 20px, 
+            transparent 40px
+        );
+    background-size: 80px 80px, 100% 40px; /* 設置兩個背景的大小 */
+    background-blend-mode: overlay; /* 讓兩個花樣疊加 */
     color: var(--shin-outline);
 }
 
-/* 多雲/陰天 (Clouds) - 溫和的白色和灰色 */
+/* 多雲/陰天 (Clouds) - 溫和的灰色與白色圓點/小白紋理 */
 .cloudy-sky {
     background-color: var(--shin-white);
-    /* 柔和的雲朵圖案 */
-    background-image: repeating-linear-gradient(
-        -45deg, 
-        rgba(255, 255, 255, 0) 0%, 
-        rgba(255, 255, 255, 0) 10px, 
-        rgba(0, 0, 0, 0.05) 10px, 
-        rgba(0, 0, 0, 0.05) 20px
-    );
+    /* 結合圓點和灰色手繪紋理 */
+    background-image: 
+        /* 1. 灰色不規則圓點 (模擬手繪雲朵或小白的腳印) */
+        radial-gradient(
+            circle at 10% 20%, rgba(0,0,0,0.1) 2px, transparent 0
+        ),
+        radial-gradient(
+            circle at 50% 70%, rgba(0,0,0,0.15) 3px, transparent 0
+        );
+    background-size: 50px 50px, 70px 70px; /* 兩個圓點紋理大小 */
+    background-repeat: repeat;
     color: var(--shin-outline);
 }
 
-/* 雨天 (Rain/Drizzle) - 帶著一點憂鬱的藍 */
+/* 雨天 (Rain/Drizzle) - 藍色基底與強烈的斜線雨滴紋理 */
 .rainy-sky {
-    background-color: #5DADE2; /* 深一點的藍 */
-    /* 模擬雨滴斜線 */
-    background-image: repeating-linear-gradient(
-        -45deg, 
-        transparent 0%, 
-        transparent 5px, 
-        rgba(255, 255, 255, 0.3) 5px, 
-        rgba(255, 255, 255, 0.3) 7px
-    );
-    color: var(--shin-outline);
+    background-color: #5DADE2; /* 深一點的藍色 */
+    /* 強烈的白色斜線雨滴紋理 */
+    background-image: 
+        repeating-linear-gradient(
+            -45deg, 
+            rgba(255, 255, 255, 0.5) 0, 
+            rgba(255, 255, 255, 0.5) 2px, 
+            transparent 2px, 
+            transparent 10px
+        );
+    background-size: 20px 20px;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.4); /* 增加濕潤的深度感 */
+    color: var(--shin-white); /* 文字改為白色 */
 }
 
-/* 雷雨 (Thunderstorm) - 動感超人色 */
+/* 雷雨 (Thunderstorm) - 濃烈且帶有閃電感的深色背景 */
 .thunder-sky {
-    background-color: #34495E; /* 濃厚的灰色 */
-    color: var(--shin-yellow); /* 閃電般的黃色文字 */
-    box-shadow: inset 0 0 50px rgba(255, 255, 0, 0.5);
+    background-color: #2C3E50; /* 濃厚的深藍灰 */
+    /* 結合黃色閃電光芒和深色網格 */
+    background-image: 
+        /* 1. 黃色放射狀閃光 (模擬動感超人變身或閃電) */
+        radial-gradient(
+            circle at 50% 50%, 
+            var(--shin-yellow) 0%, 
+            rgba(244, 208, 63, 0.5) 5%, 
+            transparent 10%
+        ),
+        /* 2. 黑色網格，增加漫畫感 */
+        repeating-linear-gradient(
+            0deg, 
+            #2C3E50, 
+            #2C3E50 20px, 
+            rgba(0, 0, 0, 0.2) 20px, 
+            rgba(0, 0, 0, 0.2) 21px
+        );
+    background-size: 500px 500px, 40px 40px;
+    background-position: center;
+    background-blend-mode: luminosity; /* 讓閃光與深色混合 */
+    color: var(--shin-yellow); /* 文字改為閃電黃 */
 }
+
 
 /* ====================================
    🎨 元件風格調整

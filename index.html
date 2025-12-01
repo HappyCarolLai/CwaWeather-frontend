@@ -24,7 +24,7 @@
     </div>
     
     <div class="status-bar">
-        <div class="location-pill">📍 春日部</div> 
+        <div class="location-pill">📍 台中市</div> 
         <div id="updateTime" class="update-pill">更新中...</div>
     </div>
 
@@ -40,20 +40,17 @@
     </div>
 
     <script>
-        // 注意：您的 API URL 雖然指向 kaohsiung，但 server.js 抓的是「臺中市」的資料。
-        // 為避免混淆，我在這裡暫時保留原始 URL，但建議未來統一名稱。
+        // API 網址已修正為 taichung，並使用您提供的 Zeabur 網域名稱
         const API_URL = "https://crayon-shinchan-weather.zeabur.app/api/weather/taichung";
 
         function getWeatherIcon(weather) {
+            // 蠟筆小新風格圖案
             if (!weather) return "🎈";
-            if (weather.includes("晴")) return "☀️";
-            if (weather.includes("多雲")) return "☁️";
+            if (weather.includes("晴")) return "😎";
+            if (weather.includes("多雲")) return "🧐";
             if (weather.includes("陰")) return "☁️";
-            if (weather.includes("雨")) return "🌧️";
-            if (weather.includes("雷")) return "⛈️";
-            // 蠟筆小新相關的圖案
-            if (weather.includes("晴")) return "😎"; 
-            if (weather.includes("多雲")) return "🧐"; 
+            if (weather.includes("雨")) return "☔";
+            if (weather.includes("雷")) return "⚡";
             return "🎈";
         }
 
@@ -61,28 +58,20 @@
             let rainIcon = "🌂";
             let rainText = "不用帶傘";
             if (parseInt(rainProb) > 30) {
-                rainIcon = "☂️";
+                rainIcon = "☔";
                 rainText = "記得帶傘！";
             }
 
             let clothIcon = "👕";
             let clothText = "舒適穿搭";
             if (parseInt(maxTemp) >= 28) {
-                clothIcon = "🎽";
+                clothIcon = "🏖️"; // 沙灘褲/短袖
                 clothText = "短袖出發";
             } else if (parseInt(maxTemp) <= 20) {
                 clothIcon = "🧥";
                 clothText = "加件外套";
             }
             
-            // 替換成新之助相關的建議
-            if (rainText.includes("帶傘")) rainIcon = "☔"; // 實際雨傘圖案
-            else rainIcon = "👟"; // 乾爽可以跑步
-            
-            if (clothText.includes("短袖")) clothIcon = "🏖️"; // 沙灘褲
-            else if (clothText.includes("外套")) clothIcon = "🎽"; // 動感超人服
-            else clothIcon = "👚"; // 簡單衣服
-
             return { rainIcon, rainText, clothIcon, clothText };
         }
 
@@ -95,16 +84,16 @@
             return "深夜";
         }
         
-        // **新增的函式：用於切換背景**
+        // 函式：用於切換背景
         function setWeatherBackground(weatherCondition) {
             const container = document.getElementById('weather-container');
             
-            // 確保容器存在，並且是 body 的直接父級，這樣才能覆蓋整個畫面
-            // 在這裡我們直接操作 container 的 class
+            // 移除所有舊的背景類別
             container.classList.remove('clear-sky', 'cloudy-sky', 'rainy-sky', 'thunder-sky');
             
             let newClass = 'cloudy-sky'; // 預設是多雲
             
+            // 根據天氣描述添加對應的 CSS Class
             if (weatherCondition.includes('晴')) {
                 newClass = 'clear-sky';
             } else if (weatherCondition.includes('多雲') || weatherCondition.includes('陰')) {
@@ -124,17 +113,19 @@
             const current = forecasts[0];
             const others = forecasts.slice(1);
 
-            // **1. 設定動態背景**
+            // 1. 設定動態背景
             setWeatherBackground(current.weather); 
 
             // 2. 渲染 Hero Card (主畫面)
-            const advice = getAdvice(current.rain.replace('%',''), current.maxTemp.replace('°C',''));
+            // 移除 °C 和 % 進行計算
+            const rainProbValue = current.rain.replace('%','');
+            const maxT_value = current.maxTemp.replace('°C','');
+            const minT_value = current.minTemp.replace('°C','');
+
+            const advice = getAdvice(rainProbValue, maxT_value);
             const period = getTimePeriod(current.startTime);
             
-            // 移除單位進行計算
-            const maxT = parseInt(current.maxTemp.replace('°C',''));
-            const minT = parseInt(current.minTemp.replace('°C',''));
-            const avgTemp = Math.round((maxT + minT) / 2);
+            const avgTemp = Math.round((parseInt(maxT_value) + parseInt(minT_value)) / 2);
 
 
             document.getElementById('heroCard').innerHTML = `
@@ -212,9 +203,8 @@
                 const [_, json] = await Promise.all([delayPromise, fetchPromise]);
 
                 if (json.success) {
-                    // 確保 body 隱藏 (將 body 樣式應用在 container 上)
-                    const bodyEl = document.querySelector('body');
-                    bodyEl.style.backgroundColor = 'transparent'; // 讓 body 透明，露出 container 背景
+                    // 讓 body 透明，露出 container 背景
+                    document.querySelector('body').style.backgroundColor = 'transparent'; 
 
                     renderWeather(json.data);
 
@@ -227,6 +217,7 @@
             } catch (e) {
                 console.error(e);
                 alert("天氣資料讀取失敗，美冴正在追新之助沒空管網路線！");
+                document.getElementById('loading').style.display = 'none';
             }
         }
 
