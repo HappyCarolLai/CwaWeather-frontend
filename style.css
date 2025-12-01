@@ -24,114 +24,58 @@ body {
     color: var(--shin-outline); 
     overflow-x: hidden;
     padding-bottom: 20px;
+    /* 讓 body 負責動態背景圖片和顏色 */
+    transition: background-color 0.8s ease-in-out, background-image 0.8s ease-in-out;
+    background-size: cover; /* 確保圖片覆蓋整個背景 */
+    background-position: center; /* 圖片置中 */
+    background-repeat: no-repeat; /* 圖片不重複 */
+    background-attachment: fixed; /* 讓背景圖片在滾動時固定 */
 }
 
 /* ====================================
-   ☀️ 動態背景樣式 (模擬蠟筆/手繪紋理)
+   📸 動態背景樣式 (使用圖片)
    ==================================== */
 
-/* 基礎容器樣式 */
+/* 晴天 (Clear) */
+body.clear-sky {
+    background-image: url('./weather-clear.png');
+    background-color: var(--shin-blue); /* 作為圖片載入前的備用色 */
+    color: var(--shin-outline);
+}
+
+/* 多雲/陰天 (Clouds) */
+body.cloudy-sky {
+    background-image: url('./weather-cloudy.png');
+    background-color: var(--shin-white); /* 作為圖片載入前的備用色 */
+    color: var(--shin-outline);
+}
+
+/* 雨天 (Rain/Drizzle) */
+body.rainy-sky {
+    background-image: url('./weather-rainy.png');
+    background-color: #5DADE2; /* 作為圖片載入前的備用色 */
+    color: var(--shin-white); /* 雨天文字改為白色，對比度更高 */
+}
+
+/* 雷雨 (Thunderstorm) */
+body.thunder-sky {
+    background-image: url('./weather-thunder.png');
+    background-color: #2C3E50; /* 作為圖片載入前的備用色 */
+    color: var(--shin-yellow); /* 閃電般的黃色文字 */
+}
+
+
+/* ====================================
+   🎨 元件風格調整 (確保區塊維持純色或半透明)
+   ==================================== */
+
+/* 最外層容器，保持透明，讓 body 的背景圖片透出 */
 .container {
     padding: 20px;
     max-width: 600px;
     margin: 0 auto;
-    /* 增加整個容器的過渡，讓背景切換更平滑 */
-    transition: background-color 0.8s ease-in-out, background-image 0.8s ease-in-out;
-    background-size: cover; 
-    background-position: center; 
-    border-radius: 0; 
+    background: transparent; /* 重要：保持透明，讓圖片顯示 */
 }
-
-/* 晴天 (Clear) - 充滿活力的黃色與藍色塗鴉 */
-.clear-sky {
-    background-color: var(--shin-blue);
-    /* 結合藍色基底和黃色/白色「蠟筆」斜線紋理 */
-    background-image: 
-        /* 1. 鮮黃色斜線紋理 (模擬蠟筆痕跡) */
-        repeating-linear-gradient(
-            -45deg, 
-            var(--shin-yellow) 0, 
-            var(--shin-yellow) 5px, 
-            transparent 5px, 
-            transparent 15px
-        ),
-        /* 2. 淺藍色橫向紋理 (增加水彩層次感) */
-        repeating-linear-gradient(
-            0deg, 
-            rgba(255, 255, 255, 0.2) 0, 
-            rgba(255, 255, 255, 0.2) 20px, 
-            transparent 20px, 
-            transparent 40px
-        );
-    background-size: 80px 80px, 100% 40px; /* 設置兩個背景的大小 */
-    background-blend-mode: overlay; /* 讓兩個花樣疊加 */
-    color: var(--shin-outline);
-}
-
-/* 多雲/陰天 (Clouds) - 溫和的灰色與白色圓點/小白紋理 */
-.cloudy-sky {
-    background-color: var(--shin-white);
-    /* 結合圓點和灰色手繪紋理 */
-    background-image: 
-        /* 1. 灰色不規則圓點 (模擬手繪雲朵或小白的腳印) */
-        radial-gradient(
-            circle at 10% 20%, rgba(0,0,0,0.1) 2px, transparent 0
-        ),
-        radial-gradient(
-            circle at 50% 70%, rgba(0,0,0,0.15) 3px, transparent 0
-        );
-    background-size: 50px 50px, 70px 70px; /* 兩個圓點紋理大小 */
-    background-repeat: repeat;
-    color: var(--shin-outline);
-}
-
-/* 雨天 (Rain/Drizzle) - 藍色基底與強烈的斜線雨滴紋理 */
-.rainy-sky {
-    background-color: #5DADE2; /* 深一點的藍色 */
-    /* 強烈的白色斜線雨滴紋理 */
-    background-image: 
-        repeating-linear-gradient(
-            -45deg, 
-            rgba(255, 255, 255, 0.5) 0, 
-            rgba(255, 255, 255, 0.5) 2px, 
-            transparent 2px, 
-            transparent 10px
-        );
-    background-size: 20px 20px;
-    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.4); /* 增加濕潤的深度感 */
-    color: var(--shin-white); /* 文字改為白色 */
-}
-
-/* 雷雨 (Thunderstorm) - 濃烈且帶有閃電感的深色背景 */
-.thunder-sky {
-    background-color: #2C3E50; /* 濃厚的深藍灰 */
-    /* 結合黃色閃電光芒和深色網格 */
-    background-image: 
-        /* 1. 黃色放射狀閃光 (模擬動感超人變身或閃電) */
-        radial-gradient(
-            circle at 50% 50%, 
-            var(--shin-yellow) 0%, 
-            rgba(244, 208, 63, 0.5) 5%, 
-            transparent 10%
-        ),
-        /* 2. 黑色網格，增加漫畫感 */
-        repeating-linear-gradient(
-            0deg, 
-            #2C3E50, 
-            #2C3E50 20px, 
-            rgba(0, 0, 0, 0.2) 20px, 
-            rgba(0, 0, 0, 0.2) 21px
-        );
-    background-size: 500px 500px, 40px 40px;
-    background-position: center;
-    background-blend-mode: luminosity; /* 讓閃光與深色混合 */
-    color: var(--shin-yellow); /* 文字改為閃電黃 */
-}
-
-
-/* ====================================
-   🎨 元件風格調整
-   ==================================== */
 
 /* 頂部狀態列 */
 .status-bar {
@@ -169,7 +113,7 @@ body {
 
 /* === 核心：今日焦點卡片 (Hero Card) === */
 .hero-card {
-    background: var(--shin-white);
+    background: var(--shin-white); /* 純白色背景 */
     border-radius: 30px;
     padding: 30px 25px;
     text-align: center;
@@ -281,7 +225,7 @@ body {
 
 .mini-card {
     min-width: 120px; /* 稍微縮小 */
-    background: var(--shin-white);
+    background: var(--shin-white); /* 純白色背景 */
     border-radius: 25px;
     padding: 20px 15px;
     text-align: center;

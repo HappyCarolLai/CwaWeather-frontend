@@ -24,7 +24,7 @@
     </div>
     
     <div class="status-bar">
-        <div class="location-pill">📍 台中市</div> 
+        <div class="location-pill">📍 春日部</div> 
         <div id="updateTime" class="update-pill">更新中...</div>
     </div>
 
@@ -40,7 +40,6 @@
     </div>
 
     <script>
-        // API 網址已修正為 taichung，並使用您提供的 Zeabur 網域名稱
         const API_URL = "https://crayon-shinchan-weather.zeabur.app/api/weather/taichung";
 
         function getWeatherIcon(weather) {
@@ -65,7 +64,7 @@
             let clothIcon = "👕";
             let clothText = "舒適穿搭";
             if (parseInt(maxTemp) >= 28) {
-                clothIcon = "🏖️"; // 沙灘褲/短袖
+                clothIcon = "🏖️"; 
                 clothText = "短袖出發";
             } else if (parseInt(maxTemp) <= 20) {
                 clothIcon = "🧥";
@@ -84,14 +83,14 @@
             return "深夜";
         }
         
-        // 函式：用於切換背景
+        // 函式：用於切換背景 (目標元素改成 body)
         function setWeatherBackground(weatherCondition) {
-            const container = document.getElementById('weather-container');
+            const bodyElement = document.querySelector('body');
             
             // 移除所有舊的背景類別
-            container.classList.remove('clear-sky', 'cloudy-sky', 'rainy-sky', 'thunder-sky');
+            bodyElement.classList.remove('clear-sky', 'cloudy-sky', 'rainy-sky', 'thunder-sky');
             
-            let newClass = 'cloudy-sky'; // 預設是多雲
+            let newClass = 'cloudy-sky'; 
             
             // 根據天氣描述添加對應的 CSS Class
             if (weatherCondition.includes('晴')) {
@@ -104,7 +103,7 @@
                 newClass = 'thunder-sky';
             }
 
-            container.classList.add(newClass);
+            bodyElement.classList.add(newClass);
         }
 
 
@@ -113,11 +112,10 @@
             const current = forecasts[0];
             const others = forecasts.slice(1);
 
-            // 1. 設定動態背景
+            // 1. 設定動態背景 (現在會套用在 body 上)
             setWeatherBackground(current.weather); 
 
             // 2. 渲染 Hero Card (主畫面)
-            // 移除 °C 和 % 進行計算
             const rainProbValue = current.rain.replace('%','');
             const maxT_value = current.maxTemp.replace('°C','');
             const minT_value = current.minTemp.replace('°C','');
@@ -203,9 +201,7 @@
                 const [_, json] = await Promise.all([delayPromise, fetchPromise]);
 
                 if (json.success) {
-                    // 讓 body 透明，露出 container 背景
-                    document.querySelector('body').style.backgroundColor = 'transparent'; 
-
+                    
                     renderWeather(json.data);
 
                     // 資料處理好後，隱藏 Loading，顯示主畫面
