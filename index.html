@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>春日部氣象站</title>
-    <link rel="icon" type="image/png" href="./icon-v2.png">
-    <link rel="apple-touch-icon" href="./icon-v2.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="./icon-v2.png">
+    <link rel="icon" type="image/png" href="./icon-v22.png">
+    <link rel="apple-touch-icon" href="./icon-v22.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./icon-v22.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap"
@@ -45,11 +45,11 @@
         function getWeatherIcon(weather) {
             // 蠟筆小新風格圖案
             if (!weather) return "🎈";
-            if (weather.includes("晴")) return "😎";
-            if (weather.includes("多雲")) return "🧐";
+            if (weather.includes("晴")) return "☀️";
+            if (weather.includes("多雲")) return "🌤️";
             if (weather.includes("陰")) return "☁️";
-            if (weather.includes("雨")) return "☔";
-            if (weather.includes("雷")) return "⚡";
+            if (weather.includes("雨")) return "🌧️";
+            if (weather.includes("雷")) return "⛈️";
             return "🎈";
         }
 
