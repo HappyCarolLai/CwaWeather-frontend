@@ -27,46 +27,54 @@ body {
     /* 讓 body 負責動態背景圖片和顏色 */
     transition: background-color 0.8s ease-in-out, background-image 0.8s ease-in-out;
     background-size: cover; /* 確保圖片覆蓋整個背景 */
-    background-position: center; /* 圖片置中 */
     background-repeat: no-repeat; /* 圖片不重複 */
     background-attachment: fixed; /* 讓背景圖片在滾動時固定 */
+    /* 這裡不再設定 center，讓各自的 Class 來控制位置 */
 }
 
 /* ====================================
    📸 動態背景樣式 (使用圖片)
    ==================================== */
 
-/* 晴天 (Clear) */
+/* 晴天 (Clear) - 關鍵設定：右上角 */
 body.clear-sky {
     background-image: url('./weather-clear.png');
-    background-color: var(--shin-blue); /* 作為圖片載入前的備用色 */
+    background-color: var(--shin-blue); 
     color: var(--shin-outline);
+    /* 🎯 關鍵修改：右上角 */
+    background-position: top right; 
 }
 
-/* 多雲/陰天 (Clouds) */
+/* 多雲/陰天 (Clouds) - 關鍵設定：左下角 */
 body.cloudy-sky {
     background-image: url('./weather-cloudy.png');
-    background-color: var(--shin-white); /* 作為圖片載入前的備用色 */
+    background-color: var(--shin-white); 
     color: var(--shin-outline);
+    /* 🎯 關鍵修改：左下角 */
+    background-position: bottom left; 
 }
 
-/* 雨天 (Rain/Drizzle) */
+/* 雨天 (Rain/Drizzle) - 關鍵設定：左下角 */
 body.rainy-sky {
     background-image: url('./weather-rainy.png');
-    background-color: #5DADE2; /* 作為圖片載入前的備用色 */
-    color: var(--shin-white); /* 雨天文字改為白色，對比度更高 */
+    background-color: #5DADE2; 
+    color: var(--shin-white); 
+    /* 🎯 關鍵修改：左下角 */
+    background-position: bottom left; 
 }
 
-/* 雷雨 (Thunderstorm) */
+/* 雷雨 (Thunderstorm) - 關鍵設定：左下角 */
 body.thunder-sky {
     background-image: url('./weather-thunder.png');
-    background-color: #2C3E50; /* 作為圖片載入前的備用色 */
-    color: var(--shin-yellow); /* 閃電般的黃色文字 */
+    background-color: #2C3E50; 
+    color: var(--shin-yellow); 
+    /* 🎯 關鍵修改：左下角 */
+    background-position: bottom left; 
 }
 
 
 /* ====================================
-   🎨 元件風格調整 (確保區塊維持純色或半透明)
+   🎨 元件風格調整 (維持不變)
    ==================================== */
 
 /* 最外層容器，保持透明，讓 body 的背景圖片透出 */
@@ -74,7 +82,7 @@ body.thunder-sky {
     padding: 20px;
     max-width: 600px;
     margin: 0 auto;
-    background: transparent; /* 重要：保持透明，讓圖片顯示 */
+    background: transparent; 
 }
 
 /* 頂部狀態列 */
@@ -94,12 +102,12 @@ body.thunder-sky {
     background: var(--shin-yellow);
     color: var(--shin-outline);
     padding: 5px 15px;
-    border-radius: 25px; /* 更圓潤 */
+    border-radius: 25px; 
     font-weight: 900;
     font-size: 1.1rem;
-    transform: rotate(1deg); /* 讓它看起來像隨手貼上 */
-    border: 3px solid var(--shin-outline); /* 粗黑邊框 */
-    box-shadow: 4px 4px 0 var(--shin-red); /* 粗紅影 */
+    transform: rotate(1deg); 
+    border: 3px solid var(--shin-outline); 
+    box-shadow: 4px 4px 0 var(--shin-red); 
 }
 
 .update-pill {
@@ -113,15 +121,15 @@ body.thunder-sky {
 
 /* === 核心：今日焦點卡片 (Hero Card) === */
 .hero-card {
-    background: var(--shin-white); /* 純白色背景 */
+    background: var(--shin-white); 
     border-radius: 30px;
     padding: 30px 25px;
     text-align: center;
-    box-shadow: 8px 8px 0 var(--shin-outline); /* 粗線條陰影 */
-    border: 5px solid var(--shin-outline); /* 粗黑邊框 */
+    box-shadow: 8px 8px 0 var(--shin-outline); 
+    border: 5px solid var(--shin-outline); 
     margin-bottom: 30px;
     position: relative;
-    transform: rotate(-1deg); /* 整體稍微傾斜，更活潑 */
+    transform: rotate(-1deg); 
 }
 
 /* 像對話氣泡 */
@@ -148,7 +156,7 @@ body.thunder-sky {
 }
 
 .hero-icon {
-    font-size: 6rem; /* 放大圖示 */
+    font-size: 6rem; 
     filter: drop-shadow(0 5px 0 rgba(0, 0, 0, 0.2));
     animation: bounce 3s infinite;
 }
@@ -173,14 +181,14 @@ body.thunder-sky {
     gap: 15px;
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 4px dashed var(--shin-skin); /* 粗虛線分隔 */
+    border-top: 4px dashed var(--shin-skin); 
 }
 
 .advice-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: var(--shin-skin); /* 淺膚色背景 */
+    background: var(--shin-skin); 
     padding: 15px 10px;
     border-radius: 20px;
     border: 3px solid var(--shin-outline);
@@ -207,13 +215,13 @@ body.thunder-sky {
     margin-bottom: 15px;
     margin-left: 10px;
     font-weight: 900;
-    text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5); /* 蠟筆感文字陰影 */
+    text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5); 
 }
 
 .scroll-container {
     display: flex;
     overflow-x: auto;
-    gap: 20px; /* 加大間距 */
+    gap: 20px; 
     padding-bottom: 10px;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -224,8 +232,8 @@ body.thunder-sky {
 }
 
 .mini-card {
-    min-width: 120px; /* 稍微縮小 */
-    background: var(--shin-white); /* 純白色背景 */
+    min-width: 120px; 
+    background: var(--shin-white); 
     border-radius: 25px;
     padding: 20px 15px;
     text-align: center;
@@ -264,7 +272,7 @@ body.thunder-sky {
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--shin-blue); /* Loading 畫面用藍色 */
+    background: var(--shin-blue); 
     display: flex;
     flex-direction: column;
     justify-content: center;
