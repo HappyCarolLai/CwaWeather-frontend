@@ -26,109 +26,55 @@ body {
     padding-bottom: 20px;
     /* 讓 body 負責動態背景圖片和顏色 */
     transition: background-color 0.8s ease-in-out, background-image 0.8s ease-in-out;
-    background-size: cover; /* 確保圖片覆蓋整個背景 */
-    background-repeat: no-repeat; /* 圖片不重複 */
-    background-attachment: fixed; /* 讓背景圖片在滾動時固定 */
 }
 
 /* ====================================
    📸 動態背景樣式 (使用圖片 + 漸變備用色)
+   
+   ⚠️ 關鍵修正：使用多重 background 語法，圖片在前，漸變在後
+   格式: background: [image-url] [repeat] [attachment] [position] / [size], [gradient];
    ==================================== */
 
 /* 晴天 (Clear) - 關鍵設定：右上角 */
 body.clear-sky {
-    /* 🎯 關鍵修改 1: 更新為 .webp 格式 */
-    background-image: url('./weather-clear.webp');
-    /* 🎯 關鍵修改 2: 使用漸變作為圖片載入前的底色 */
-    background-color: transparent; /* 設為透明，讓漸變生效 */
-    background: linear-gradient(to bottom, #87CEEB, #F0E68C);
-    
     color: var(--shin-outline);
-    /* 保持右上角 */
-    background-position: top right; 
-    background-size: cover; /* 重新確保 cover 生效 */
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background: 
+        /* 圖片背景層 (疊在最上層) */
+        url('./weather-clear.webp') no-repeat fixed top right / cover,
+        /* 漸變底色層 (作為圖片載入失敗時的備用背景) */
+        linear-gradient(to bottom, #87CEEB, #F0E68C);
 }
 
 /* 多雲/陰天 (Clouds) - 關鍵設定：左下角 */
 body.cloudy-sky {
-    /* 🎯 關鍵修改 1: 更新為 .webp 格式 */
-    background-image: url('./weather-cloudy.webp');
-    /* 🎯 關鍵修改 2: 使用漸變作為圖片載入前的底色 */
-    background-color: transparent; /* 設為透明，讓漸變生效 */
-    background: linear-gradient(to bottom, #ADD8E6, #D3D3D3);
-
     color: var(--shin-outline);
-    /* 保持左下角 */
-    background-position: bottom left; 
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background: 
+        /* 圖片背景層 */
+        url('./weather-cloudy.webp') no-repeat fixed bottom left / cover,
+        /* 漸變底色層 */
+        linear-gradient(to bottom, #ADD8E6, #D3D3D3);
 }
 
 /* 雨天 (Rain/Drizzle) - 關鍵設定：左下角 */
 body.rainy-sky {
-    /* 🎯 關鍵修改 1: 更新為 .webp 格式 */
-    background-image: url('./weather-rainy.webp');
-    /* 🎯 關鍵修改 2: 使用漸變作為圖片載入前的底色 */
-    background-color: transparent; /* 設為透明，讓漸變生效 */
-    background: linear-gradient(to bottom, #B0C4DE, #708090);
-
-    color: var(--shin-white); 
-    /* 保持左下角 */
-    background-position: bottom left; 
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    color: var(--shin-white); /* 雨天文字為白色，提高對比 */
+    background: 
+        /* 圖片背景層 */
+        url('./weather-rainy.webp') no-repeat fixed bottom left / cover,
+        /* 漸變底色層 */
+        linear-gradient(to bottom, #B0C4DE, #708090);
 }
 
 /* 雷雨 (Thunderstorm) - 關鍵設定：左下角 */
 body.thunder-sky {
-    /* 🎯 關鍵修改 1: 更新為 .webp 格式 */
-    background-image: url('./weather-thunder.webp');
-    /* 🎯 關鍵修改 2: 使用漸變作為圖片載入前的底色 */
-    background-color: transparent; /* 設為透明，讓漸變生效 */
-    /* 注意：此處需將多個 background 屬性結合，確保圖片與漸變都能生效 */
+    color: var(--shin-yellow); /* 雷雨天文字為黃色 */
     background: 
         /* 圖片背景層 */
         url('./weather-thunder.webp') no-repeat fixed bottom left / cover,
         /* 漸變底色層 */
         linear-gradient(to bottom, #483D8B, #2F4F4F, #000000);
-
-    color: var(--shin-yellow); 
 }
 
-/* 由於雷雨天的 background 寫法會覆蓋 body 的 transition，為了保持一致性，我們將所有天氣的 background 屬性都寫成多層次組合。
-   這樣可以確保圖片、漸變、位置、尺寸、重複、固定都正確應用。 */
-body.clear-sky {
-    background: 
-        /* 圖片背景層 - 關鍵設定：右上角 */
-        url('./weather-clear.webp') no-repeat fixed top right / cover,
-        /* 漸變底色層 */
-        linear-gradient(to bottom, #87CEEB, #F0E68C);
-    color: var(--shin-outline);
-}
-
-body.cloudy-sky {
-    background: 
-        /* 圖片背景層 - 關鍵設定：左下角 */
-        url('./weather-cloudy.webp') no-repeat fixed bottom left / cover,
-        /* 漸變底色層 */
-        linear-gradient(to bottom, #ADD8E6, #D3D3D3);
-    color: var(--shin-outline);
-}
-
-body.rainy-sky {
-    background: 
-        /* 圖片背景層 - 關鍵設定：左下角 */
-        url('./weather-rainy.webp') no-repeat fixed bottom left / cover,
-        /* 漸變底色層 */
-        linear-gradient(to bottom, #B0C4DE, #708090);
-    color: var(--shin-white); 
-}
-
-/* 雷雨天保持原樣，因為單獨設定是正確的 */
 
 /* ====================================
    🎨 元件風格調整 (維持不變)
